@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.6",
+    "express": "^4.21.1",
+    "react-bootstrap": "^2.10.6",
+    "spotify-web-api-node": "^5.0.2"
+  }
+}

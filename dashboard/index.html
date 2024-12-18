@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Nicholas Cardoso">
+    <meta name="description" content="Dashboard for SoundScout to display artists">
+    <meta name="viewport" content="width=device-width, initial-scale 1.0">
+
+    <title>SoundScout Dashboard</title>
+
+    <link rel="stylesheet" href="css/main.css">
+
+
+</head>
+
+<body>
+
+    <main>
+        <section class="dashboard-box" id="artists-box">
+            <h2>Your Favorite Artists</h2>
+            <ul id="artists-list" class="artists-containers"></ul>
+        </section>
+
+        <section class="new-releases" id="new-releases-box">
+            <h2>New Releases</h2>
+
+            <div class="button-container">
+                <button id="load-artists-btn">
+                  <img src="images/refresh.svg" alt="Load Artists" class="button-icon">  
+                </button>
+            </div>
+
+            <ul id="recent-releases-list"></ul>
+        </section>
+
+    </main>
+
+
+
+
+
+    <!--Old Code, does not need debugging-->
+    <div class="navbar">
+        <div class="container">
+            <a class="logo" href="#" onclick="redirectToHome()">Sound<span>Scout</span></a>
+
+            <img id="mobile-cta" class="mobile-menu" src="images/menu.svg" alt="Open Navigation">
+
+
+            <nav>
+                 <img id="mobile-exit" class="mobile-menu-exit" src="images/exit.svg" alt="Close Navigation">
+                <ul class="primary-nav">
+                    <li class="current"><a href="#" onclick="redirectToHome()">Home</a></li>
+                    <li><a href="#" onclick="redirectToLogin()">Dashboard</a></li>
+                    <li><a href="#" onclick="togglePopup('popup-1')">About</a></li>
+                </ul>
+
+                <ul class="secondary-nav">
+                    <li><a href="#" onclick="togglePopup('popup-2')">Contact</a></li>
+                    <li class="return-page"><a href="https://www.nicktcardoso.com">Return to main page</a></li>
+                </ul>
+
+            </nav>
+        </div>
+    </div>
+
+<!--Create Popup windows (Reuse old code from index page)-->
+<div class="popup" id="popup-1">
+    <div class="overlay" onclick="togglePopup('popup-1')"></div>
+    <div class="content">
+        <div class="close-btn" onclick="togglePopup('popup-1')">&times;</div>
+    <h1>About SoundScout</h1>
+    <p>SoundScout is a personalized music discovery app designed to connect Spotify users with the latest releases from their favorite artists. 
+        By integrating with the Spotify Web API, SoundScout allows users to log in, view a curated dashboard of their preferred artists, and explore newly released tracks tailored to their musical tastes. 
+        Whether you're looking to stay updated on your favorite genres or discover fresh sounds, SoundScout makes it effortless to keep your playlist exciting.
+    </p>
+    </div>
+</div>
+
+<div class="popup" id="popup-2">
+    <div class="overlay" onclick="togglePopup('popup-2')"></div>
+    <div class="content">
+        <div class="close-btn" onclick="togglePopup('popup-2')">&times;</div>
+        <h2>Contact Me</h2>
+        <p>Feel free to reach out to my email: nickcardoso713@gmail.com</p>
+    </div>
+</div>
+
+<footer>
+    <a href="https://www.spotify.com" target="_blank">
+        <img src="images/black_spotify_logo.svg" alt="Spotify Logo" class="spotify-logo">
+    </a>
+</footer>
+
+
+
+
+<script src="src/App.js"></script>
+
+
+
+
+
+
+</body>
+
+
+</html>
+
+
+
+
+
