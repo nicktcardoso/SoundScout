@@ -1,3 +1,0 @@
-#SoundScout
-
-SoundScout is the first application that I have built, that utilizes Spotify WebAPI to deliver user data. It displays the users top 10 artists, as well as provides the user with a list of recently released music that may have been missed. It can be found on my website, nicktcardoso.com under the projects folder, or alternatively one can go to nicktcardoso.com/soundscout. Please let me know if you have any questions/requests/recommendations! Since this application is not officially registered by Spotify, it will only work when I authorize a user from my Spotify Developer Dashboard.
