@@ -557,3 +557,168 @@ p.artist-name {
     color: #555;
     line-height: 1.5;
   }
+
+  .logout-button {
+    color: var(--primary-color);
+    border: 3px solid var(--primary-color);
+    background: transparent;
+    font-weight: 700;
+    font-size: 0.85rem;
+    border-radius: 5em;
+    padding: 8px 16px;
+    cursor: pointer;
+    position: absolute;
+    display: none;
+    top: 13px;
+    right: 16px;
+    transition: all 0.2s ease-in-out;
+  
+    &:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+  }
+
+  /* ---------------------------
+   📱 Mobile Styling (iPhone 11-15, etc.)
+--------------------------- */
+@media screen and (max-width: 600px) {
+    body {
+      font-size: 14px;
+      padding: 0 1rem;
+    }
+  
+    .navbar {
+      padding: 0.5em 1em;
+  
+      .container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+  
+      .logo {
+        font-size: 1.5rem;
+        margin-bottom: 0.5em;
+      }
+  
+      nav {
+        display: block;
+        width: 100%;
+      }
+  
+      .primary-nav,
+      .secondary-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0;
+      }
+  
+      .mobile-menu,
+      .mobile-menu-exit {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  
+    .logout-button {
+      top: 60px;
+      right: 12px;
+      font-size: 0.95rem;
+      padding: 8px 14px;
+      z-index: 1001;
+    }
+  
+    .dashboard-box,
+    .new-releases {
+      margin-top: 5rem;
+      padding: 1rem 0;
+  
+      h2 {
+        font-size: 1.2rem;
+        text-align: center;
+      }
+  
+      .artists-containers,
+      .releases-list {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        align-items: center;
+      }
+  
+      .artist-card {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+  
+        .artist-image {
+          width: 100%;
+          max-width: 200px;
+          height: auto;
+          border-radius: 12px;
+        }
+      }
+  
+      .release-item {
+        max-width: 320px;
+        width: 100%;
+      }
+  
+      .release-image {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+  
+      .release-details {
+        font-size: 0.9rem;
+        text-align: left;
+      }
+    }
+  
+    .popup .content {
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+  
+    footer {
+      padding: 1rem;
+      text-align: center;
+  
+      img.spotify-logo {
+        width: 120px;
+        height: auto;
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    #artists-list {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1rem 0;
+      margin: 0 auto;
+    }
+  
+    .artist-card {
+      width: 90%;
+      max-width: 320px;
+      text-align: center;
+  
+      .artist-image {
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+      }
+  
+      .artist-name {
+        font-size: 1rem;
+        margin-top: 0.5rem;
+      }
+    }
+  }

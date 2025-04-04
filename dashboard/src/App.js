@@ -59,14 +59,29 @@ document.getElementById('load-artists-btn').addEventListener('click', async func
 });
 
 
-//New Code -> Retrieve tokens from backend
+/* Logout button implementation */
+document.addEventListener('DOMContentLoaded', () => {
+  const logoutBtn = document.getElementById('logout-btn');
+
+  // ✅ Only show & activate logout button if on /dashboard
+  const isDashboard = window.location.pathname.includes('/dashboard');
+
+  if (logoutBtn && isDashboard) {
+    logoutBtn.style.display = 'inline-block';
+
+    logoutBtn.addEventListener('click', () => {
+      sessionStorage.removeItem("access_token");
+      sessionStorage.removeItem("refresh_token");
+      window.location.href = "https://nicktcardoso.com/soundscout";
+    });
+  }
+});
 
 
 
 document.addEventListener('DOMContentLoaded', async () => {
   console.log("✅ DOMContentLoaded fired");
 
-    console.log("Window location pathname FOUND, grabbing tokens");
     const params = new URLSearchParams(window.location.search);
     const accessTokenFromUrl = params.get('access_token');
     const refreshTokenFromUrl = params.get('refresh_token');
