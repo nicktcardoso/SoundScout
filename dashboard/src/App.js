@@ -152,32 +152,35 @@ async function fetchTopArtists() {
 
    const displayedArtists = new Set(); 
 
-    const top10Artists = [];
+  const allArtists = [];
+    
     
     for (const artist of artistsData.items) {
       if (!displayedArtists.has(artist.id)) {
         displayedArtists.add(artist.id)
-        top10Artists.push(artist);
-        await fetchNewReleasesForArtist(artist.id, artist.name, accessToken);
-        await delay(1);
+        allArtists.push(artist);
       }
     }
 
+  const top10Artists = allArtists.slice(0, 10);
+
    const artistList = document.getElementById('artists-list');
-   if (top10Artists.length > 0) {
-    artistList.innerHTML = top10Artists.slice(0,10).map(artist => {
+    artistList.innerHTML = top10Artists.map(artist => {
       const imageUrl = artist.images && artist.images.length > 0 ? artist.images[0].url : 'placeholder.jpg';
       return `
       <div class="artist-card">
           <a href="${artist.external_urls.spotify}" target="_blank">
           <img src="${imageUrl}" alt="${artist.name}" class="artist-image">
              </a> 
-             <p class="artist-name"> ${artist.name}</p>
+             <p class="artist-name">${artist.name}</p>
      </div>
       `;
   }).join('');
-   }
-
+   
+  for (const artist of allArtists) {
+    fetchNewReleasesForArtist(artist.id, artist.name, accessToken);
+    await delay(5);
+  }
 
   } catch (error) {
     console.error('Error fetching artists or new releases: ', error);
