@@ -33,10 +33,25 @@ if (event.key === "Escape") {
 }
 });
 
-document.getElementById('load-artists-btn').addEventListener('click', async function() {
-  this.style.display = 'none'; //hide button
+document.getElementById('load-artists-btn').addEventListener('click', async function () {
+  this.style.display = 'none'; // Hide the button temporarily
 
-    await fetchTopArtists();
+  // 🔄 Reparse token from URL in case it's still there
+  const params = new URLSearchParams(window.location.search);
+  const accessToken = params.get('access_token');
+  const refreshToken = params.get('refresh_token');
+
+  if (accessToken) {
+    console.log("🔁 Manually grabbed token from URL:", accessToken);
+    sessionStorage.setItem("access_token", accessToken);
+  }
+
+  if (refreshToken) {
+    sessionStorage.setItem("refresh_token", refreshToken);
+  }
+
+  // ✅ Then try to fetch artists again
+  await fetchTopArtists();
 
   setTimeout(() => {
     this.style.display = 'inline-block';
@@ -47,21 +62,48 @@ document.getElementById('load-artists-btn').addEventListener('click', async func
 //New Code -> Retrieve tokens from backend
 
 
-function handleLogin() {
 
-  const params = new URLSearchParams(window.location.search);
-  const accessToken = params.get('access_token');
-  const refreshToken = params.get('refresh_token');
+document.addEventListener('DOMContentLoaded', async () => {
+  console.log("✅ DOMContentLoaded fired");
 
+  if (window.location.pathname === "/soundscout/dashboard") {
+    const params = new URLSearchParams(window.location.search);
+    const accessTokenFromUrl = params.get('access_token');
+    const refreshTokenFromUrl = params.get('refresh_token');
 
-  sessionStorage.setItem("access_token", accessToken);
-  sessionStorage.setItem("refresh_token", refreshToken);
-}
+    if (accessTokenFromUrl) {
+      console.log("🎟️ Token found in URL:", accessTokenFromUrl);
+      sessionStorage.setItem("access_token", accessTokenFromUrl);
+    }
 
-if (window.location.pathname === "/soundscout/dashboard") {
-  handleLogin();
-}
+    if (refreshTokenFromUrl) {
+      sessionStorage.setItem("refresh_token", refreshTokenFromUrl);
+    }
 
+    // 🔁 Retry sessionStorage access if needed
+    let retries = 0;
+    let token = sessionStorage.getItem("access_token");
+
+    while (!token && retries < 10) {
+      console.log(`⏳ Retry ${retries + 1}: Waiting for sessionStorage...`);
+      await delay(100);
+      token = sessionStorage.getItem("access_token");
+      retries++;
+    }
+
+    if (token) {
+      console.log("✅ Access token available, starting fetchTopArtists");
+      await fetchTopArtists();
+    } else {
+      console.error("❌ Access token is missing after retries.");
+    }
+
+    // 🧹 Clean up the URL
+    if (window.history.replaceState) {
+      window.history.replaceState({}, document.title, "/soundscout/dashboard");
+    }
+  }
+});
 
 
 function getAccessToken() {
@@ -91,10 +133,6 @@ function displayTopItems(data) {
 async function fetchTopArtists() {
   const accessToken = sessionStorage.getItem("access_token");
 
-   if (!accessToken) {
-     handleLogin();
-   }
-
   try {
     const artistsResponse = await fetch('https://9few96h8ej.execute-api.us-east-1.amazonaws.com/prod/top-items?type=artists&limit=50', {
       headers: {
@@ -102,12 +140,19 @@ async function fetchTopArtists() {
       }
     });
     
+    if (!artistsResponse.ok) {
+      throw new Error(`HTTP error! Status: ${artistsResponse.status}`);
+    }
 
    const artistsData = await artistsResponse.json();
 
+   if (!Array.isArray(artistsData.items)) {
+    throw new Error("artistsData.items is not an array");
+   }
+
    const displayedArtists = new Set(); 
 
-  const top10Artists = [];
+    const top10Artists = [];
     
     for (const artist of artistsData.items) {
       if (!displayedArtists.has(artist.id)) {
@@ -141,10 +186,6 @@ async function fetchTopArtists() {
 }
 
 async function fetchNewReleasesForArtist(artistId, artistName, accessToken) {
-  if (!accessToken) {
-    handleLogin();
-    return;
-  }
 
   try {
     await delay(1);
@@ -248,7 +289,6 @@ function displayNewReleasesForArtist(artistName, releases) {
   releasesContainer.appendChild(artistSection);
 }
 
-fetchTopArtists();
 
   
   
