@@ -141,30 +141,44 @@ async function fetchTopArtists() {
 }
 
 async function fetchNewReleasesForArtist(artistId, artistName, accessToken) {
-   if (!accessToken) {
-     handleLogin();
-     return;
-   }
+  if (!accessToken) {
+    handleLogin();
+    return;
+  }
+
   try {
-    //Change limit here to get more or less requests from spotify API, max of 50
     await delay(1);
-    const releasesResponse = await fetch(`https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=album,single&limit=50&offset=0&market=US`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const releasesResponse = await fetch(
+      `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=album,single&limit=50&offset=0&market=US`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
 
+    if (releasesResponse.status === 401) {
+      console.warn(`401 Unauthorized for artist ${artistId}. Skipping.`);
+      return;
+    }
 
-      const releasesData = await releasesResponse.json();
+    const releasesData = await releasesResponse.json();
 
-      const recentReleases = releasesData.items.filter(release => {
+    if (!releasesData.items) {
+      console.warn(`Invalid or missing 'items' for artist ${artistId}`, releasesData);
+      return;
+    }
+
+    const twoWeeksAgo = new Date();
+    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+
+    const recentReleases = releasesData.items.filter((release) => {
       const releaseDate = new Date(release.release_date);
-      const twoWeeksAgo = new Date();
-      twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
       return releaseDate >= twoWeeksAgo;
     });
 
     displayNewReleasesForArtist(artistName, recentReleases);
+
   } catch (error) {
     console.error(`Error fetching new releases for artist ${artistId}:`, error);
   }
@@ -211,15 +225,19 @@ function displayNewReleasesForArtist(artistName, releases) {
   releases.forEach((release) => {
     const releaseItem = document.createElement("li");
     releaseItem.classList.add("release-item");
+  
     releaseItem.innerHTML = `
-    <a href="${release.external_urls.spotify}" target="_blank" rel=noopener noreferrer">
-      <img src="${release.images[0]?.url || "placeholder.jpg"}" alt="${release.name}" class="release-image">
-      <div>
-        <strong>${release.name}</strong><br>
-        <span>Released on: ${release.release_date}</span><br>
-        <span>Type: ${release.album_type}</span>
-      </div>
+      <a href="${release.external_urls.spotify}" target="_blank" rel="noopener noreferrer">
+        <img src="${release.images[0]?.url || "placeholder.jpg"}" alt="${release.name}" class="release-image">
+        <div class="release-details">
+          <strong>${release.name}</strong>
+          <span>By: ${artistName}</span>
+          <span>Released: ${release.release_date}</span>
+          <span>Type: ${release.album_type}</span>
+        </div>
+      </a>
     `;
+  
     releasesList.appendChild(releaseItem);
   });
 

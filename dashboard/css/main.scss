@@ -427,14 +427,6 @@ p.artist-name {
     align-items: center;
 }
 
-/* .artist-image {
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
-    margin-right: 50px;
-}
-*/
-
 .releases-list {
     list-style-type: none;
     padding: 0;
@@ -489,4 +481,79 @@ p.artist-name {
     width: 100px;
     height: auto;
     margin-top: 20px;
+  }
+
+/* === New Release Layout v2 === */
+
+.artist-releases-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  .artist-name {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .releases-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .release-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+  
+    &:hover {
+      transform: scale(1.01);
+    }
+  
+    a {
+      display: flex;
+      gap: 20px;
+      text-decoration: none;
+      color: inherit;
+      width: 100%;
+    }
+  }
+  
+  .release-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+  
+  .release-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .release-details strong {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    color: #111;
+  }
+  
+  .release-details span {
+    font-size: 0.95em;
+    color: #555;
+    line-height: 1.5;
   }
