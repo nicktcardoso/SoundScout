@@ -66,7 +66,7 @@ document.getElementById('load-artists-btn').addEventListener('click', async func
 document.addEventListener('DOMContentLoaded', async () => {
   console.log("✅ DOMContentLoaded fired");
 
-  if (window.location.pathname === "/soundscout/dashboard") {
+    console.log("Window location pathname FOUND, grabbing tokens");
     const params = new URLSearchParams(window.location.search);
     const accessTokenFromUrl = params.get('access_token');
     const refreshTokenFromUrl = params.get('refresh_token');
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (window.history.replaceState) {
       window.history.replaceState({}, document.title, "/soundscout/dashboard");
     }
-  }
+  
 });
 
 
