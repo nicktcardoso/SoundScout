@@ -61,15 +61,13 @@ document.getElementById('load-artists-btn').addEventListener('click', async func
 
 /* Logout button implementation */
 document.addEventListener('DOMContentLoaded', () => {
-  const logoutBtn = document.getElementById('logout-btn');
+  const logoutLink = document.getElementById('logout-link');
 
   // ✅ Only show & activate logout button if on /dashboard
-  const isDashboard = window.location.pathname.includes('/dashboard');
 
-  if (logoutBtn && isDashboard) {
-    logoutBtn.style.display = 'inline-block';
-
-    logoutBtn.addEventListener('click', () => {
+  if (logoutLink) {
+    logoutLink.addEventListener('click', (e) => {
+      e.preventDefault();
       sessionStorage.removeItem("access_token");
       sessionStorage.removeItem("refresh_token");
       window.location.href = "https://nicktcardoso.com/soundscout";
